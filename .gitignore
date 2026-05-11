@@ -1,0 +1,149 @@
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.log
+
+# Maven wrapper downloaded files
+.mvn/wrapper/maven-wrapper.jar
+
+# Maven release plugin
+release.properties
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+dependency-reduced-pom.xml
+
+# Maven build backup files
+*.versionsBackup
+
+
+# =========================
+# Generated documentation
+# =========================
+**/target/site/
+**/target/reports/
+**/target/apidocs/
+
+
+# =========================
+# Native / C++ build artifacts
+# =========================
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.app
+*.dSYM/
+
+# CMake / native build dirs
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+compile_commands.json
+Makefile
+
+
+# =========================
+# CppBridgeJ generated files
+# =========================
+**/target/native/
+**/target/cppbridge/
+**/target/benchmarks.jar
+
+
+# =========================
+# JMH / benchmark output
+# =========================
+jmh-result.*
+*.jfr
+*.hprof
+hs_err_pid*
+replay_pid*
+
+
+# =========================
+# IDE: IntelliJ IDEA
+# =========================
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+
+# =========================
+# IDE: Eclipse
+# =========================
+.project
+.classpath
+.settings/
+.metadata/
+bin/
+
+
+# =========================
+# IDE: VS Code
+# =========================
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+
+
+# =========================
+# macOS
+# =========================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+
+# =========================
+# Windows
+# =========================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+
+# =========================
+# Linux
+# =========================
+*~
+
+
+# =========================
+# Archives / packaged exports
+# =========================
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+
+# =========================
+# Temporary files
+# =========================
+tmp/
+temp/
+*.tmp
+*.swp
+*.swo
