@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>dev.cppbridge</groupId>
+        <artifactId>cppbridgej-parent</artifactId>
+        <version>1.0.0-rc2</version>
+    </parent>
+
+    <artifactId>cppbridge-benchmark</artifactId>
+    <name>CppBridgeJ Benchmark</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>dev.cppbridge</groupId>
+            <artifactId>cppbridge-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-core</artifactId>
+            <version>${jmh.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-generator-annprocess</artifactId>
+            <version>${jmh.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>dev.cppbridge</groupId>
+                <artifactId>cppbridge-maven-plugin</artifactId>
+                <version>${project.version}</version>
+                <configuration>
+                    <libraryName>benchmath</libraryName>
+                    <expectedSymbols>
+                        <expectedSymbol>average_double</expectedSymbol>
+                        <expectedSymbol>multiply_each_double</expectedSymbol>
+                        <expectedSymbol>heavy_transform_double</expectedSymbol>
+                        <expectedSymbol>three_step_pipeline_double</expectedSymbol>
+                        <expectedSymbol>brightness_u8</expectedSymbol>
+                        <expectedSymbol>invert_u8</expectedSymbol>
+                        <expectedSymbol>threshold_u8</expectedSymbol>
+                        <expectedSymbol>image_pipeline_u8</expectedSymbol>
+                    </expectedSymbols>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile-cpp</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+                JMH needs generated metadata in META-INF/BenchmarkList.
+                On newer JDK/Maven combinations it is safer to declare the
+                annotation processor explicitly instead of relying on classpath scanning.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <release>${maven.compiler.release}</release>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.openjdk.jmh</groupId>
+                            <artifactId>jmh-generator-annprocess</artifactId>
+                            <version>${jmh.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+            <!--
+                Build a runnable benchmark jar. This avoids the common mistake of
+                running `mvn exec:java` before JMH metadata has been generated.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>benchmarks</finalName>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>dev.cppbridge.benchmark.BenchmarkRunner</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <configuration>
+                    <mainClass>dev.cppbridge.benchmark.BenchmarkRunner</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
